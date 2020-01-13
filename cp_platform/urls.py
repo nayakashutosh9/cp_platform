@@ -19,7 +19,7 @@ from cp_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cp_app/', include('cp_app.urls', namespace = 'cp_app')),
-    path('',views.home,name='home' ),
+    path('',views.home,name='home'),
     path('index/',views.index,name='index'),
 
     ]
