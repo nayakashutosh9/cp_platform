@@ -19,7 +19,7 @@ class Author(models.Model):
 
 class Problem(models.Model):
     title = models.CharField(max_length=200)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE,related_name='tags')
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     author = models.ManyToManyField(Author)
 
     description=models.CharField(max_length=10000)

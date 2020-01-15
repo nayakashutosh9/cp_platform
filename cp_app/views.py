@@ -11,8 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.forms import formset_factory
-from cp_app.models import UserProfileInfo
-from cp_app.forms import UserForm, UserProfileInfoForm
+from cp_app.models import UserProfileInfo,Problem,Tag
+from cp_app.forms import UserForm, UserProfileInfoForm,SearchForm
 import random
 import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,8 +20,26 @@ from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
                                   UpdateView,DeleteView)
 # Create your views here.
+@login_required
 def index(request):
-    return render(request, 'index.html')
+    form = SearchForm()
+    q2 = Tag.objects.all()
+    q1 = Problem.objects.none()
+    if request.method == "POST":
+        form = SearchForm(data=request.POST or None )
+        if form.is_valid():
+            print("BYE")
+            tag_query=form.cleaned_data['tag']
+            print(tag_query)
+            q1 = Problem.objects.filter(tag__name__iexact=tag_query)
+            if q1:
+                    return render(request,'index.html',{'form':form, 'problems':q1, "tags":q2})
+            else:
+                print("fuck")
+    else:
+        q1 = Problem.objects.all()
+    print('hi')
+    return render(request,'index.html',{'form':form, 'problems':q1,'tags':q2})
 def register(request):
     registered = False
     if request.method == "POST":
