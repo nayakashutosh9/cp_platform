@@ -13,4 +13,7 @@ class UserProfileInfoForm(forms.ModelForm):
         model = UserProfileInfo
         fields = ('profile_pic',)
 class SearchForm(forms.Form):
-    tag = forms.CharField(widget=forms.TextInput(attrs={'autocomplete': 'off'}) )
+    tag = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )
+    rating =forms.IntegerField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}))
+    author = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )
+    problem_name = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )

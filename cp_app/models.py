@@ -16,7 +16,8 @@ class Tag(models.Model):
 class Author(models.Model):
     name=models.CharField(max_length=100)
     author_pic=models.ImageField(upload_to='author_pics',blank=False)
-
+    def __str__(self):
+        return self.name
 class Problem(models.Model):
     title = models.CharField(max_length=200)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)

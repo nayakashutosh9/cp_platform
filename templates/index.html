@@ -24,12 +24,28 @@
     <br>
     <div class="row">
       <div class="col form-group">
-        <input list="tags" type="search" name="tag_query" autocomplete="off" class="form-control textbox-translucent" placeholder="search tags" required title="" >
+        <input list="tags" type="search" name="tag_query" autocomplete="off" class="form-control textbox-translucent" placeholder="search tags" >
         <datalist id="tags">
         {% for c in tags %}
         <option value="{{c.name}}">{{c.name}}</option>
         {% endfor %}
         </datalist>
+      </div>
+      <div class="col form-group">
+        <input list="authors" type="search" name="author_query" autocomplete="off" class="form-control textbox-translucent" placeholder="search platforms"  >
+        <datalist id="authors">
+        {% for c in authors %}
+        <option value="{{c.name}}">{{c.name}}</option>
+        {% endfor %}
+        </datalist>
+      </div>
+      <div class="col form-group">
+        <input type="text" name="title_query" autocomplete="off" class="form-control textbox-translucent" placeholder="type problem name" >
+
+      </div>
+      <div class="col form-group">
+        <input  type="text" name="rating_query" autocomplete="off" class="form-control textbox-translucent" placeholder="eg: 100" >
+
       </div>
     </div>
     <div class="col-md text-center">
@@ -48,6 +64,23 @@
       <div class="row">
         <div class="col">
           <h1><i class="fas fa-bus fa-lg"></i> {{ x.title}}</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>{{ x.description}}</h4>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <h4> {{ x.rating}}</h4>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <h4> <a href="{{x.link}}">{{ x.link}}</a></h4>
         </div>
       </div>
     </div>
