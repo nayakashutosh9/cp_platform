@@ -1,10 +1,91 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>INDEX</title>
-  </head>
-  <body>
-    <a href="{url index}"></a>
-  </body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Search Flights{% endblock %}
+{% block index %}{% endblock %}
+{% block links_n_scripts %}
+  {% load bootstrap4 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript jquery='full' %}
+  {{ form.media }}
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{% endblock %}
+{% block body_block %}
+<div class="jumbotron jumbotron-translucent" style="margin: 65px 0px 45px 0px; border-radius: 0rem!important;">
+  <form method="post">
+    {% csrf_token %}
+    <h1 align="center">Search</h1>
+    <hr>
+    <div align="center" style="color: white;">
+    Search problems
+    </div>
+    <br>
+    <div class="row">
+      <div class="col form-group">
+        <input list="tags" type="search" name="tag_query" autocomplete="off" class="form-control textbox-translucent" placeholder="search tags" >
+        <datalist id="tags">
+        {% for c in tags %}
+        <option value="{{c.name}}">{{c.name}}</option>
+        {% endfor %}
+        </datalist>
+      </div>
+      <div class="col form-group">
+        <input list="authors" type="search" name="author_query" autocomplete="off" class="form-control textbox-translucent" placeholder="search platforms"  >
+        <datalist id="authors">
+        {% for c in authors %}
+        <option value="{{c.name}}">{{c.name}}</option>
+        {% endfor %}
+        </datalist>
+      </div>
+      <div class="col form-group">
+        <input type="text" name="title_query" autocomplete="off" class="form-control textbox-translucent" placeholder="type problem name" >
+
+      </div>
+      <div class="col form-group">
+        <input  type="text" name="rating_query" autocomplete="off" class="form-control textbox-translucent" placeholder="eg: 100" >
+
+      </div>
+    </div>
+    <div class="col-md text-center">
+      <button class="btn btn-primary button-translucent" type="submit"><i class="fas fa-search"></i> Search</button>
+    </div>
+  </form>
+</div>
+{% if problems %}
+  {% if request.method == 'POST' %}
+  <h4 style="text-align: center"><b>{{ problems.count }} problems found.</b></h4>
+  {% else %}
+  <h4 style="text-align: center"><b>{{ problems.count }} available problems.</b></h4>
+  {% endif %}
+  {% for x in problems %}
+    <div class="jumbotron jumbotron-translucent" style="margin: 10px 0px; box-shadow: none;border-radius: 0rem!important;">
+      <div class="row">
+        <div class="col">
+          <h1><i class="fas fa-bus fa-lg"></i> {{ x.title}}</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>{{ x.description}}</h4>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <h4> {{ x.rating}}</h4>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <h4> <a href="{{x.link}}">{{ x.link}}</a></h4>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <h1 style="color: #efefef;">NO problems</h1>
+{% endif %}
+{% endblock %}

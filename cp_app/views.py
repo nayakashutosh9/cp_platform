@@ -11,17 +11,39 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.forms import formset_factory
-from cp_app.models import UserProfileInfo
-from cp_app.forms import UserForm, UserProfileInfoForm
+from cp_app.models import UserProfileInfo,Problem,Tag,Author
+from cp_app.forms import UserForm, UserProfileInfoForm,SearchForm
 import random
 import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
                                   UpdateView,DeleteView)
+def is_valid_queryparam(param):
+    return param != '' and param is not None
+
 # Create your views here.
+@login_required
 def index(request):
-    return render(request, 'index.html')
+    form = SearchForm()
+    q2 = Tag.objects.all()
+    q1 = Problem.objects.all()
+    q3= Author.objects.all()
+    form = SearchForm(request.POST or None)
+    tag=request.POST.get('tag_query')
+    problem_name=request.POST.get('title_query')
+    author=request.POST.get('author_query')
+    rating=request.POST.get('rating_query')
+
+    if is_valid_queryparam(tag):
+        q1 = q1.filter(tag__name__iexact=tag)
+    if is_valid_queryparam(problem_name):
+        q1 = q1.filter(title__icontains=problem_name)
+    if is_valid_queryparam(author):
+        q1 = q1.filter(author__name__iexact=author)
+    if is_valid_queryparam(rating):
+        q1 = q1.filter(rating__iexact=rating)
+    return render(request,'index.html',{'form':form, 'problems':q1,'tags':q2,'authors':q3})
 def register(request):
     registered = False
     if request.method == "POST":

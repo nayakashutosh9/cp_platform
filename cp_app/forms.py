@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from cp_app.models import UserProfileInfo
+from cp_app.models import UserProfileInfo,Problem
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -12,3 +12,8 @@ class UserProfileInfoForm(forms.ModelForm):
     class Meta():
         model = UserProfileInfo
         fields = ('profile_pic',)
+class SearchForm(forms.Form):
+    tag = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )
+    rating =forms.IntegerField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}))
+    author = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )
+    problem_name = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )

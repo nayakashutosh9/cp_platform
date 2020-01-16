@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cp_app',
     'bootstrap4',
+    'import_export',
 ]
 
 MIDDLEWARE = [
