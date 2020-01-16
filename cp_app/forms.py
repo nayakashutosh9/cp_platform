@@ -13,9 +13,4 @@ class UserProfileInfoForm(forms.ModelForm):
         model = UserProfileInfo
         fields = ('profile_pic',)
 class SearchForm(forms.Form):
-    tag = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )
-    def clean(self):
-        cleaned_data = super(SearchForm, self).clean()
-        # do your custom validations / transformations here
-        # and some more
-        return cleaned_data
+    tag = forms.CharField(widget=forms.TextInput(attrs={'autocomplete': 'off'}) )

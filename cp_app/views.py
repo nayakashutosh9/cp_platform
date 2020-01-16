@@ -26,16 +26,13 @@ def index(request):
     q2 = Tag.objects.all()
     q1 = Problem.objects.none()
     if request.method == "POST":
-        form = SearchForm(data=request.POST or None )
-        if form.is_valid():
-            print("BYE")
-            tag_query=form.cleaned_data['tag']
-            print(tag_query)
-            q1 = Problem.objects.filter(tag__name__iexact=tag_query)
-            if q1:
-                    return render(request,'index.html',{'form':form, 'problems':q1, "tags":q2})
-            else:
-                print("fuck")
+        form = SearchForm(request.POST )
+        tag=request.POST.get('tag_query')
+        q1 = Problem.objects.filter(tag__name__iexact=tag)
+        if q1:
+                return render(request,'index.html',{'form':form, 'problems':q1, "tags":q2})
+        else:
+            print("fuck")
     else:
         q1 = Problem.objects.all()
     print('hi')

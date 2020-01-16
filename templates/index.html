@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="{% static 'js/ajax.js' %}"></script>
 {% endblock %}
 {% block body_block %}
 <div class="jumbotron jumbotron-translucent" style="margin: 65px 0px 45px 0px; border-radius: 0rem!important;">
@@ -25,7 +24,7 @@
     <br>
     <div class="row">
       <div class="col form-group">
-        <input list="tags" type="search" name="tag_query" autocomplete="off" class="form-control textbox-translucent" placeholder="search tags" required title="" id="id_destination">
+        <input list="tags" type="search" name="tag_query" autocomplete="off" class="form-control textbox-translucent" placeholder="search tags" required title="" >
         <datalist id="tags">
         {% for c in tags %}
         <option value="{{c.name}}">{{c.name}}</option>
