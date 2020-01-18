@@ -34,7 +34,8 @@ def index(request):
     problem_name=request.POST.get('title_query')
     author=request.POST.get('author_query')
     rating=request.POST.get('rating_query')
-
+    sort_by_rating = request.POST.get('rating_sort')
+    print(request.POST)
     if is_valid_queryparam(tag):
         q1 = q1.filter(tag__name__iexact=tag)
     if is_valid_queryparam(problem_name):
@@ -43,6 +44,11 @@ def index(request):
         q1 = q1.filter(author__name__iexact=author)
     if is_valid_queryparam(rating):
         q1 = q1.filter(rating__iexact=rating)
+    if sort_by_rating=='up':
+        print('hi')
+        q1=q1.order_by('rating')
+    elif sort_by_rating=='down':
+        q1=q1.order_by('-rating')
     return render(request,'index.html',{ 'problems':q1,'tags':q2,'authors':q3})
 def register(request):
     registered = False
