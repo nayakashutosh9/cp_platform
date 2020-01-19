@@ -12,8 +12,8 @@ class UserProfileInfoForm(forms.ModelForm):
     class Meta():
         model = UserProfileInfo
         fields = ('profile_pic',)
-class SearchForm(forms.Form):
-    tag = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )
-    rating =forms.IntegerField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}))
-    author = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )
-    problem_name = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )
+# class SearchForm(forms.Form):
+#     tag = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )
+#     rating =forms.IntegerField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}))
+#     author = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )
+#     problem_name = forms.CharField(required=False,widget=forms.TextInput(attrs={'autocomplete': 'off'}) )

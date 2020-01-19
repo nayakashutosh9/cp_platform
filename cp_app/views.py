@@ -12,7 +12,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.forms import formset_factory
 from cp_app.models import UserProfileInfo,Problem,Tag,Author
-from cp_app.forms import UserForm, UserProfileInfoForm,SearchForm
+from cp_app.forms import UserForm, UserProfileInfoForm
 import random
 import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -25,16 +25,17 @@ def is_valid_queryparam(param):
 # Create your views here.
 @login_required
 def index(request):
-    form = SearchForm()
+    # form = SearchForm()
     q2 = Tag.objects.all()
     q1 = Problem.objects.all()
     q3= Author.objects.all()
-    form = SearchForm(request.POST or None)
+    # form = SearchForm(request.POST or None)
     tag=request.POST.get('tag_query')
     problem_name=request.POST.get('title_query')
     author=request.POST.get('author_query')
     rating=request.POST.get('rating_query')
-
+    sort_by_rating = request.POST.get('rating_sort')
+    print(request.POST)
     if is_valid_queryparam(tag):
         q1 = q1.filter(tag__name__iexact=tag)
     if is_valid_queryparam(problem_name):
@@ -43,7 +44,12 @@ def index(request):
         q1 = q1.filter(author__name__iexact=author)
     if is_valid_queryparam(rating):
         q1 = q1.filter(rating__iexact=rating)
-    return render(request,'index.html',{'form':form, 'problems':q1,'tags':q2,'authors':q3})
+    if sort_by_rating=='up':
+        print('hi')
+        q1=q1.order_by('rating')
+    elif sort_by_rating=='down':
+        q1=q1.order_by('-rating')
+    return render(request,'index.html',{ 'problems':q1,'tags':q2,'authors':q3})
 def register(request):
     registered = False
     if request.method == "POST":
