@@ -26,5 +26,6 @@ class Problem(models.Model):
     description=models.CharField(max_length=10000)
     rating=models.PositiveIntegerField()
     link=models.URLField(max_length=100)
+    reviewed=models.BooleanField()
     def __str__(self):
         return self.title;
