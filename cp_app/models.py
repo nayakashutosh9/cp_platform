@@ -20,8 +20,8 @@ class Author(models.Model):
         return self.name
 class Problem(models.Model):
     title = models.CharField(max_length=200)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-    author = models.ManyToManyField(Author)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    tag = models.ManyToManyField(Tag)
 
     description=models.CharField(max_length=10000)
     rating=models.PositiveIntegerField()

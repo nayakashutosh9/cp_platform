@@ -66,10 +66,10 @@
         <div class="col-lg-4 col-sm-4">
           <div class="row">
             <div class="col-lg-6 col-sm-6">
-              <label><input class="checkbox"  type="radio" value="" name="rating_sort" ><b style="color: white;font-size: 1.2em;">  Low to High</b></label>
+              <label><input class="checkbox"  type="radio" value="up" name="rating_sort" ><b style="color: white;font-size: 1.2em;">  Low to High</b></label>
             </div>
             <div class="col-lg-6 col-sm-6">
-              <label><input class="checkbox"  type="radio" value="" name="rating_sort" ><b style="color: white;font-size: 1.2em;">  High to Low</b></label>
+              <label><input class="checkbox"  type="radio" value="down" name="rating_sort" ><b style="color: white;font-size: 1.2em;">  High to Low</b></label>
             </div>
           </div>
         </div>
@@ -91,7 +91,7 @@
     <div class="jumbotron jumbotron-translucent" style="margin: 10px 0px; box-shadow: none;border-radius: 0rem!important;">
       <div class="row">
         <div class="col">
-          <h1><i class="fas fa-bus fa-lg"></i> {{ x.title}}</h1>
+          <h1><img src="{{x.author.author_pic.url}}"></img>{{ x.title}}</h1>
         </div>
       </div>
       <div class="row">
