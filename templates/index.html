@@ -90,12 +90,18 @@
   {% for x in problems %}
     <div class="jumbotron jumbotron-translucent" style="margin: 10px 0px; box-shadow: none;border-radius: 0rem!important;">
       <div class="row">
-        <div class="col">
-          <h1>
-            {{ x.title}}</h1>
+        <div class="col-lg-8">
+          {% if x.author %}
+          <img src='{{x.author.author_pic.url}}' style='height:50% ;width:50%;'alt="">
+          {%endif%}
+          <h1>{{ x.title}}</h1>
+        </div>
+        <div class="col-lg-4">
+          <h3>Tags:</h3>
             {% for tags in x.tag.all%}
-            <h1>{{tags}}</h1>
+            <button class="btn btn-warning tag_all" style="color:white;"><b>{{ tags }}</b></button>
             {%endfor%}
+
         </div>
       </div>
       <div class="row">
