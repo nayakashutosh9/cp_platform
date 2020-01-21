@@ -23,6 +23,11 @@ def is_valid_queryparam(param):
     return param != '' and param is not None
 
 # Create your views here.
+# @login_required
+# def add_problems(request):
+#     name=request.GET.get('title_of_problem')
+#     author=request.GET.get('author')
+#     rating=request.
 @login_required
 def index(request):
     # form = SearchForm()

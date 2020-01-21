@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from cp_app import views
+from . import  settings
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cp_app/', include('cp_app.urls', namespace = 'cp_app')),
@@ -23,3 +26,6 @@ urlpatterns = [
     path('index/',views.index,name='index'),
 
     ]
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
