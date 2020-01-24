@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Search Flights{% endblock %}
+{% block title %}Add Problems{% endblock %}
 {% block index %}{% endblock %}
 {% block links_n_scripts %}
   {% load bootstrap4 %}
@@ -42,11 +42,11 @@
                       <input  type="text" name="rating_query" autocomplete="off" class="form-control textbox-translucent" >
                     </div>
                   </div>
-                  
+
                     <div class="col-lg-6 col-sm-6">
                       <div class="col form-group">
                         <h6><b>Add description: </b></h6>
-                      <textarea name="descript" rows="8" cols="80"></textarea>
+                      <textarea name="descript" rows="8" cols="65"></textarea>
                   </div>
                     </div>
                     <div class="col-lg-6 col-sm-6">
@@ -55,10 +55,31 @@
                         <input  type="text" name="link_query" autocomplete="off" class="form-control textbox-translucent" >
                       </div>
                     </div>
+                    <div class="col-lg-6 col-sm-6">
+                      <div class="col form-group">
+                        <h6><b>Add Tags: </b></h6>
+
+                         <select list='tags' multiple class="form-control" name='tag_list'>
+                         <datalist id="tags">
+                         {% for c in tags %}
+                         <option value="{{c.name}}">{{c.name}}</option>
+                         {% endfor %}
+                         </datalist>
+
+                       </select>
+                       </div>
+                    </div>
     </div>
       <br>
-      <button class="btn btn-primary button-translucent" type="submit"><i class="fas fa-search"></i> ADD</button>
+      <button onclick="showAlert()" class="btn btn-primary button-translucent" type="submit"><i class="fas fa-chevron-right"></i> ADD</button>
 
   </form>
 </div>
+<script>
+function showAlert(){
+  var s="PROBLEM ADDED.\nYour Problem is waiting for the Admin's Approval.\nIt will be Posted once it is Approved";
+  alert(s);
+}
+
+</script>
 {%endblock%}

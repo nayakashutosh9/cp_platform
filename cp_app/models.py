@@ -29,3 +29,11 @@ class Problem(models.Model):
     reviewed=models.BooleanField()
     def __str__(self):
         return self.title;
+
+    def count_rev():
+        counts=0
+        q1=Problem.objects.all();
+        for x in q1:
+            if x.reviewed==True:
+                counts+=1
+        return counts

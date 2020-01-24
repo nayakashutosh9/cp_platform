@@ -26,6 +26,7 @@ def is_valid_queryparam(param):
 @login_required
 def add_problems(request):
     a1=Author.objects.all()
+    t1=Tag.objects.all()
     if request.method=='POST':
         print(request.POST)
         Title=request.POST.get('title_query')
@@ -33,7 +34,7 @@ def add_problems(request):
         Rat=request.POST.get('rating_query')
         desc=request.POST.get('descript')
         Link=request.POST.get('link_query')
-        # tag_def=Tag.objects.all()
+        tag_def=request.POST.getlist('tag_list')
         verified_auth=Author.objects.filter(name__iexact=Auth)
         verified_auth= verified_auth[0]
         p1=Problem(
@@ -42,11 +43,16 @@ def add_problems(request):
         rating=int(Rat),
         description=desc,
         link=Link,
-        reviewed=False
+        reviewed=False,
         )
         p1.save()
+        for x in tag_def:
+            tn=Tag.objects.filter(name__iexact=x)
+            tn=tn[0]
+            p1.tag.add(tn)
+        p1.save()
 
-    return render(request,'add_problems.html',{ 'authors':a1})
+    return render(request,'add_problems.html',{ 'authors':a1,'tags':t1})
 @login_required
 def index(request):
     # form = SearchForm()
