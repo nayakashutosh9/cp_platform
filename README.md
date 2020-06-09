@@ -21,6 +21,6 @@ yet present:
      your Problem will be  displayed on the wesite
      
      
- #### We are adding a "Discuss Forum" shortly
+ ### We are adding a "Discuss Forum" shortly
    Here you can discuss solutions with people and comment new ideas 
    to solve any Problem.
