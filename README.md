@@ -1,4 +1,4 @@
-# cp_platform
+# CODE MIRROR
 
 
 This is basically a competitive programing platform which prepares you for a job interview .
