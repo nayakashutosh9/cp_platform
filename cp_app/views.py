@@ -11,10 +11,11 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.forms import formset_factory
-from cp_app.models import UserProfileInfo,Problem,Tag,Author
-from cp_app.forms import UserForm, UserProfileInfoForm
+from cp_app.models import UserProfileInfo,Problem,Tag,Author,Comment
+from cp_app.forms import UserForm,CommentForm, UserProfileInfoForm
 import random
 import datetime
+from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
@@ -23,16 +24,37 @@ def is_valid_queryparam(param):
     return param != '' and param is not None
 
 # Create your views here.
-# @login_required
-# def add_problems(request):
-#     name=request.GET.get('title_of_problem')
-#     author=request.GET.get('author')
-#     rating=request.GET.get('rating')
-#     desc=request.GET.get('description')
-#     link=request.GET.get('link')
-#     tag='Stack'
-
 @login_required
+def add_problems(request):
+    a1=Author.objects.all()
+    t1=Tag.objects.all()
+    if request.method=='POST':
+        print(request.POST)
+        Title=request.POST.get('title_query')
+        Auth=request.POST.get('author_query')
+        Rat=request.POST.get('rating_query')
+        desc=request.POST.get('descript')
+        Link=request.POST.get('link_query')
+        tag_def=request.POST.getlist('tag_list')
+        verified_auth=Author.objects.filter(name__iexact=Auth)
+        verified_auth= verified_auth[0]
+        p1=Problem(
+        title=Title,
+        author=verified_auth,
+        rating=int(Rat),
+        description=desc,
+        link=Link,
+        reviewed=False,
+        )
+        p1.save()
+        for x in tag_def:
+            tn=Tag.objects.filter(name__iexact=x)
+            tn=tn[0]
+            p1.tag.add(tn)
+        p1.save()
+
+    return render(request,'add_problems.html',{ 'authors':a1,'tags':t1})
+
 def index(request):
     # form = SearchForm()
     q2 = Tag.objects.all()
@@ -62,6 +84,7 @@ def index(request):
 def register(request):
     registered = False
     if request.method == "POST":
+        print(request.POST)
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileInfoForm(data=request.POST)
         if user_form.is_valid() and profile_form.is_valid():
@@ -80,8 +103,8 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileInfoForm()
     return render(request,'register.html',{'registered':registered,'user_form':user_form,'profile_form':profile_form})
-def discuss(request):
-    return render(request,'discuss.html')
+# def discuss(request):
+#     return render(request,'discuss.html')
 def home(request):
     return render(request,'home.html')
 def user_login(request):
@@ -108,3 +131,31 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('cp_app:user_login'))
+
+class ProblemDetailView(DetailView,LoginRequiredMixin):
+    model = Problem
+    login_url = '/cp_app/login/'
+    redirect_field_name='login.html'
+    #check
+
+@login_required
+def add_comment_to_problem(request, pk):
+    problem = get_object_or_404(Problem, pk=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.problem = problem
+            comment.user=request.user
+            comment.save()
+            return redirect('cp_app:problem_detail', pk=problem.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'comment_form.html', {'form': form})
+
+@login_required
+def comment_remove(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    problem_pk = comment.problem.pk
+    comment.delete()
+    return redirect('cp_app:problem_detail', pk=problem_pk)
